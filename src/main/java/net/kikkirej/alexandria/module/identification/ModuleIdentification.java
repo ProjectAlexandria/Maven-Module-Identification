@@ -6,6 +6,7 @@ import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
 import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
+import org.camunda.bpm.engine.variable.value.ObjectValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +33,9 @@ public abstract class ModuleIdentification implements ExternalTaskHandler {
             File analysisFolder = getAnalysisFolder(businessKey);
             Collection<String> semicolonSeparatedModuleDirectories = definingObjectFinder.moduleDirectoriesIn(analysisFolder, getFilePattern());
             VariableMap variables = Variables.createVariables();
-            variables.put(getModulePathsVariableName(), semicolonSeparatedModuleDirectories);
+            ObjectValue objectValue = Variables.objectValue(semicolonSeparatedModuleDirectories).create();
+            variables.put(getModulePathsVariableName(), objectValue);
+
             externalTaskService.complete(externalTask, variables);
         }catch (RuntimeException runtimeException){
             externalTaskService.handleBpmnError(externalTask, "undefined", runtimeException.getMessage());
