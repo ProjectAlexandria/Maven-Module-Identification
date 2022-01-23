@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.Collection;
 
 public abstract class ModuleIdentification implements ExternalTaskHandler {
 
@@ -29,9 +30,9 @@ public abstract class ModuleIdentification implements ExternalTaskHandler {
             String businessKey = externalTask.getBusinessKey();
             log.debug("Business-Key to analyze: " + businessKey);
             File analysisFolder = getAnalysisFolder(businessKey);
-            String semicolonSeparatedPomDirectories = definingObjectFinder.semicolonSeparatedPomDirectoriesIn(analysisFolder, getFilePattern());
+            Collection<String> semicolonSeparatedModuleDirectories = definingObjectFinder.moduleDirectoriesIn(analysisFolder, getFilePattern());
             VariableMap variables = Variables.createVariables();
-            variables.put(getModulePathsVariableName(), semicolonSeparatedPomDirectories);
+            variables.put(getModulePathsVariableName(), semicolonSeparatedModuleDirectories);
             externalTaskService.complete(externalTask, variables);
         }catch (RuntimeException runtimeException){
             externalTaskService.handleBpmnError(externalTask, "undefined", runtimeException.getMessage());

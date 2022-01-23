@@ -20,7 +20,7 @@ class DefiningObjectFinderTest {
     @Test
     void semicolonSeparatedPomDirectoriesIn() {
         File analysisDir = new File("./example-structure");
-        String result = pomFinder.semicolonSeparatedPomDirectoriesIn(analysisDir, "pom.xml");
+        String result = pomFinder.moduleDirectoriesIn(analysisDir, "pom.xml");
         assertTrue(result.contains("/module1"));
         assertTrue(result.contains("/module2"));
         assertTrue(result.contains("/module2/submodule"));
