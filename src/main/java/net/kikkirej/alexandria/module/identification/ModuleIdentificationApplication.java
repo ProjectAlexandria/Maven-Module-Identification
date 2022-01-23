@@ -1,4 +1,4 @@
-package net.kikkirej.alexandria.maven.module.identification;
+package net.kikkirej.alexandria.module.identification;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

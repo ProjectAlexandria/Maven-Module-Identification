@@ -1,7 +1,6 @@
-package net.kikkirej.alexandria.maven.module.identification;
+package net.kikkirej.alexandria.module.identification;
 
-import net.kikkirej.alexandria.maven.module.identification.config.GeneralProperties;
-import org.camunda.bpm.client.spring.annotation.ExternalTaskSubscription;
+import net.kikkirej.alexandria.module.identification.config.GeneralProperties;
 import org.camunda.bpm.client.task.ExternalTask;
 import org.camunda.bpm.client.task.ExternalTaskHandler;
 import org.camunda.bpm.client.task.ExternalTaskService;
@@ -9,40 +8,40 @@ import org.camunda.bpm.engine.variable.VariableMap;
 import org.camunda.bpm.engine.variable.Variables;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 
-@Component
-@ExternalTaskSubscription("maven-module-identification")
-public class ModuleIdentification implements ExternalTaskHandler {
+public abstract class ModuleIdentification implements ExternalTaskHandler {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private final GeneralProperties generalProperties;
-    private final PomFinder pomFinder;
+    protected final GeneralProperties generalProperties;
+    protected final DefiningObjectFinder definingObjectFinder;
 
-    @Autowired
-    public ModuleIdentification(GeneralProperties generalProperties, PomFinder pomFinder) {
+    protected ModuleIdentification(GeneralProperties generalProperties, DefiningObjectFinder definingObjectFinder) {
         this.generalProperties = generalProperties;
-        this.pomFinder = pomFinder;
+        this.definingObjectFinder = definingObjectFinder;
     }
 
     @Override
     public void execute(ExternalTask externalTask, ExternalTaskService externalTaskService) {
         try{
             String businessKey = externalTask.getBusinessKey();
-            log.debug("");
+            log.debug("Business-Key to analyze: " + businessKey);
             File analysisFolder = getAnalysisFolder(businessKey);
-            String semicolonSeparatedPomDirectories = pomFinder.semicolonSeparatedPomDirectoriesIn(analysisFolder);
+            String semicolonSeparatedPomDirectories = definingObjectFinder.semicolonSeparatedPomDirectoriesIn(analysisFolder, getFilePattern());
             VariableMap variables = Variables.createVariables();
-            variables.put("maven_module_directories", semicolonSeparatedPomDirectories);
+            variables.put(getModulePathsVariableName(), semicolonSeparatedPomDirectories);
             externalTaskService.complete(externalTask, variables);
         }catch (RuntimeException runtimeException){
             externalTaskService.handleBpmnError(externalTask, "undefined", runtimeException.getMessage());
         }
     }
+
+    protected abstract String getModulePathsVariableName();
+
+    protected abstract String getFilePattern();
+
 
     private File getAnalysisFolder(String businessKey) {
         String sharedfolder = generalProperties.getSharedfolder();

@@ -2,9 +2,12 @@
 
 Component for identifying maven module paths in a give directory.
 
-Triggered by https://docs.camunda.org/manual/latest/user-guide/ext-client/[external-task-client] topic *maven-module-identification*.
+Triggered by https://docs.camunda.org/manual/latest/user-guide/ext-client/[external-task-client] following-topics:
 
-== Used
+* *maven-module-identification*: finds maven modules/projects and persists in variable `maven_module_paths`. Finding based on "pom.xml"
+* *npm-project-identification*: finds maven modules/projects and persists in variable `npm_project_paths`. Finding based on "package.json"
+
+== Required
 * Spring-Config: Option `alexandria.sharedfolder`
 * Camunda: Business-Key -> used for subfolder name
-* Dateien unter Pfade `${alexandria.sharedfolder}\${business-key}`
+* files in directory: `${alexandria.sharedfolder}\${business-key}`

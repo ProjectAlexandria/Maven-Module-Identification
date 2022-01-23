@@ -1,4 +1,4 @@
-package net.kikkirej.alexandria.maven.module.identification.config;
+package net.kikkirej.alexandria.module.identification.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;

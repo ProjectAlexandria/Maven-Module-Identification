@@ -1,4 +1,4 @@
-package net.kikkirej.alexandria.maven.module.identification;
+package net.kikkirej.alexandria.module.identification;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -7,20 +7,20 @@ import java.io.File;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PomFinderTest {
+class DefiningObjectFinderTest {
 
     //SUT
-    private PomFinder pomFinder;
+    private DefiningObjectFinder pomFinder;
 
     @BeforeEach
     void setUp() {
-        pomFinder = new PomFinder();
+        pomFinder = new DefiningObjectFinder();
     }
 
     @Test
     void semicolonSeparatedPomDirectoriesIn() {
         File analysisDir = new File("./example-structure");
-        String result = pomFinder.semicolonSeparatedPomDirectoriesIn(analysisDir);
+        String result = pomFinder.semicolonSeparatedPomDirectoriesIn(analysisDir, "pom.xml");
         assertTrue(result.contains("/module1"));
         assertTrue(result.contains("/module2"));
         assertTrue(result.contains("/module2/submodule"));

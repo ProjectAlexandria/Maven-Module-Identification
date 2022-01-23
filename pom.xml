@@ -12,7 +12,7 @@
 	<artifactId>module-identification</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>module-identification</name>
-	<description>identification of maven modules</description>
+	<description>identification of modules</description>
 	<properties>
 		<java.version>11</java.version>
 		<spring-cloud.version>2021.0.1-SNAPSHOT</spring-cloud.version>

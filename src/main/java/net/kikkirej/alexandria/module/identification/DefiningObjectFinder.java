@@ -1,4 +1,4 @@
-package net.kikkirej.alexandria.maven.module.identification;
+package net.kikkirej.alexandria.module.identification;
 
 import org.springframework.stereotype.Component;
 
@@ -7,12 +7,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Component
-public class PomFinder {
+public class DefiningObjectFinder {
 
-    public String semicolonSeparatedPomDirectoriesIn(File analysisFolder){
+    public String semicolonSeparatedPomDirectoriesIn(File analysisFolder, String filePattern){
         Set<File> moduleDirectories = new HashSet<>();
-        analyzeForMavenModules(analysisFolder, moduleDirectories);
+        analyzeForMavenModules(analysisFolder, moduleDirectories, filePattern);
         return foundFilesToShortendStrings(analysisFolder, moduleDirectories);
+    }
+
+    private void analyzeForMavenModules(File analysisFolder, Set<File> moduleDirectories, String filePattern) {
+        File[] files = analysisFolder.listFiles();
+        assert files != null;
+        for (File file:
+                files) {
+            if(file.isDirectory()){
+                analyzeForMavenModules(file, moduleDirectories, filePattern);
+            }else if(file.getName().equalsIgnoreCase("pom.xml")){
+                moduleDirectories.add(analysisFolder);
+            }
+        }
     }
 
     private String foundFilesToShortendStrings(File analysisFolder, Set<File> moduleDirectories) {
@@ -32,18 +45,5 @@ public class PomFinder {
             result = result.substring(0, result.length() - 1);
         }
         return result;
-    }
-
-    private void analyzeForMavenModules(File analysisFolder, Set<File> moduleDirectories) {
-        File[] files = analysisFolder.listFiles();
-        assert files != null;
-        for (File file:
-             files) {
-            if(file.isDirectory()){
-                analyzeForMavenModules(file, moduleDirectories);
-            }else if(file.getName().equalsIgnoreCase("pom.xml")){
-                moduleDirectories.add(analysisFolder);
-            }
-        }
     }
 }

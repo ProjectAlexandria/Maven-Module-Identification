@@ -1,6 +1,6 @@
 spring:
   application:
-    name: "alexandria-maven-module-identification"
+    name: "alexandria-module-identification"
 
   cloud:
     config:
