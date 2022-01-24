@@ -1,6 +1,6 @@
 = Maven Module Identification
 
-Component for identifying maven module paths in a give directory.
+Component for identifying maven module paths in a given directory.
 
 Triggered by https://docs.camunda.org/manual/latest/user-guide/ext-client/[external-task-client] following-topics:
 
@@ -10,4 +10,4 @@ Triggered by https://docs.camunda.org/manual/latest/user-guide/ext-client/[exter
 == Required
 * Spring-Config: Option `alexandria.sharedfolder`
 * Camunda: Business-Key -> used for subfolder name
-* files in directory: `${alexandria.sharedfolder}\${business-key}`
+* Files in directory: `${alexandria.sharedfolder}\${business-key}`

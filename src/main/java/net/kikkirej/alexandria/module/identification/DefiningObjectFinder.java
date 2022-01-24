@@ -24,7 +24,7 @@ public class DefiningObjectFinder {
                 files) {
             if(file.isDirectory()){
                 analyzeForMavenModules(file, moduleDirectories, filePattern);
-            }else if(file.getName().equalsIgnoreCase("pom.xml")){
+            }else if(file.getName().equalsIgnoreCase(filePattern)){
                 moduleDirectories.add(analysisFolder);
             }
         }
